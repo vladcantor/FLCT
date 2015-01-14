@@ -1,0 +1,8 @@
+const id + ( )
+E T
+E
+E->T
+E->E + T
+T->( E )
+T->id
+T->const
