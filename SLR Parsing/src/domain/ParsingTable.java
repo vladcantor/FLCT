@@ -38,12 +38,12 @@ public class ParsingTable {
 	public void print() {
 		System.out.format("%3s", "");
 		for (String s : this.columnNames) 
-			System.out.format("%15s", s);
+			System.out.format("%20s", s);
 		System.out.println();
 		for (int i = 0; i < this.rowNames.size(); i++) {
 			System.out.format("%3s", this.rowNames.get(i));
 			for (String v : this.values[i])
-				System.out.format("%15s", v);
+				System.out.format("%20s", v);
 			System.out.println();
 		}
 	}

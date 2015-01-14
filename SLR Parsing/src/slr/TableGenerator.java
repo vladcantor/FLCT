@@ -112,7 +112,7 @@ public class TableGenerator {
 			if (i.dotPosition() == i.right().size()) {
 				Set<String> follow = follow(i.left(), g);
 				for (String fl : follow) 
-					t.add(s.getName(), fl, "r@@"+i.left() + "->" + i.right().toString());
+					t.add(s.getName(), fl, "r@@"+g.getProductionNumber(i.left(), i.right()));
 				return;
 			}
 			for (String term : g.getTerminals()) {
@@ -141,8 +141,6 @@ public class TableGenerator {
 				else if (found == rhs.size() - 1)
 					follow.addAll(follow(nont, g));
 			}
-		if (n.equals("E") ||n.equals("T"))
-			System.out.println("Follow " + n + ": " + follow.toString());
 		return follow;
 	}
 	
@@ -167,7 +165,7 @@ public class TableGenerator {
 	
 	private static Set<String> first1(String n, Grammar g) {
 		Set<String> first = new HashSet<String>();
-		if (g.getNonterminals().contains(n)) {
+		if (g.getTerminals().contains(n)) {
 			first.add(n);
 			return first;
 		}

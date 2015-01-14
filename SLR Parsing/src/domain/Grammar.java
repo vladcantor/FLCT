@@ -6,9 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -18,13 +16,14 @@ public class Grammar {
 	private Set<String> terminals;
 	private Set<String> nonterminals;
 	private String startingSymbol;
-	private Map<String, List<List<String>>> productions;
+//	private Map<String, List<List<String>>> productions;
+	private List<Production> productions;
 	
 	public Grammar(Set<String> terminals, Set<String> nonterminals, String startingSymbol) {
 		this.terminals = terminals;
 		this.nonterminals = nonterminals;
 		this.startingSymbol = startingSymbol;
-		this.productions= new HashMap<String, List<List<String>>>();
+		this.productions= new ArrayList<Production>();
 	}
 	
 	public Grammar getExtendedGrammar(String newSym) {
@@ -38,7 +37,7 @@ public class Grammar {
 		this.filepath = grammar;
 		this.terminals = new HashSet<String>();
 		this.nonterminals = new HashSet<String>();
-		this.productions = new HashMap<String, List<List<String>>>();
+		this.productions = new ArrayList<Production>();
 		load();
 	}
 	
@@ -95,17 +94,7 @@ public class Grammar {
 	}
 	
 	public void addProduction(String from, List<String> to) {
-		if (productions.containsKey(from)) {
-			List<List<String>> values = productions.get(from);
-			if (!values.contains(to))
-				values.add(to);
-			productions.put(from,  values);
-		}
-		else {
-			List<List<String>> derived = new ArrayList<List<String>>();
-			derived.add(to);
-			productions.put(from, derived);
-		}
+		productions.add(new Production(from, to, productions.size() + 1));
 	}
 	
 	public Set<String> getTerminals() {
@@ -121,17 +110,32 @@ public class Grammar {
 	}
 	
 	public List<List<String>> getProductionsOf(String symbol) {
-		if (this.productions.get(symbol) != null) 
-			return this.productions.get(symbol);
-		return new ArrayList<List<String>>();
+		//if (this.productions.get(symbol) != null) 
+			//return this.productions.get(symbol);
+		List<List<String>> res = new ArrayList<List<String>>();
+		for (Production p : productions)
+			if (p.from().equals(symbol))
+				res.add(p.to());
+		return res;
 	}
 	
 	public boolean existsProduction(String from, String to) {
-		List<List<String>> all = productions.get(from);
+		List<List<String>> all = getProductionsOf(from);
 		for (List<String> s : all) 
 			if (s.contains(to))
 				return true;
 		return false;
 	}
 	
+	public Production getProduction(int number) {
+		return this.productions.get(number - 1);
+	}
+	
+	public Integer getProductionNumber(String from, List<String> to) {
+		
+		for (Production p : productions)
+			if (p.from().equals(from) && p.to().size() == to.size() && p.to().containsAll(to))
+				return p.position();
+		return -1;
+	}
 }
