@@ -15,7 +15,7 @@ public class Main {
 	
 	private static void PartTwo(){
 		try {
-			Grammar g = new Grammar("grammar.txt");
+			Grammar g = new Grammar("grammar1.txt");
 			String filename = "file.txt";
 			
 			ScanningResult lexicalScaner = LexicalScanner.Scan(filename);
