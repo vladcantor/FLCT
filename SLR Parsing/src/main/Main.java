@@ -9,8 +9,8 @@ import domain.Grammar;
 
 public class Main {
 	public static void main (String args[]) {
-		PartOne();
-		//PartTwo();
+		//PartOne();
+		PartTwo();
 	}
 	
 	private static void PartTwo(){
